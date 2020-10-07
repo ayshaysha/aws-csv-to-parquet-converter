@@ -8,6 +8,8 @@ Platform: AWS Lambda
 
 Script Language: Python
 
+Python Compatibility: Python 3.6
+
 Dependencies: 
 
 1. Boto3
