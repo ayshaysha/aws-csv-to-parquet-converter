@@ -8,7 +8,7 @@ Platform: AWS Lambda
 
 Script Language: Python
 
-Python Compatibility: Python 3.6
+Script Compatibility: Python 3.6
 
 Dependencies: 
 
