@@ -23,6 +23,7 @@ Purpose:
 
 This Script gets files from Amazon S3 and converts it to Parquet Version for later query jobs and uploads it back to the Amazon S3.
 
+
 Elements and Explanation:
 
 Python Library Boto3 allows the lambda to get the CSV file from S3 and then Fast-Parquet (or Pyarrow) converts the CSV file into Parquet.
@@ -33,6 +34,7 @@ Parameters:
 1. Bucket Name and Region
 
 2. CSV File Key Name
+
 
 Deployment Process:
 
