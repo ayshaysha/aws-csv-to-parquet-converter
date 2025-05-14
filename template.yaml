@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: CSV→Parquet Lambda Converter
+
+Resources:
+  CsvToParquetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.10
+      CodeUri: src/
+      MemorySize: 1024
+      Timeout: 300
+      Policies:
+        - S3ReadPolicy:
+            BucketName: !Ref SourceBucket
+        - S3WritePolicy:
+            BucketName: !If [HasDestBucket, !Ref DestBucket, !Ref SourceBucket]
+      Environment:
+        Variables:
+          DEST_BUCKET: !Ref DestBucket
+          DEST_PREFIX: converted/
+      Events:
+        OnCsvUpload:
+          Type: S3
+          Properties:
+            Bucket: !Ref SourceBucket
+            Events: s3:ObjectCreated:Put
+
+Parameters:
+  SourceBucket:
+    Type: String
+    Description: Name of the source S3 bucket
+
+  DestBucket:
+    Type: String
+    Default: ''
+    Description: Optional destination S3 bucket (falls back to source)
+
+Conditions:
+  HasDestBucket: !Not [!Equals [!Ref DestBucket, '']]
